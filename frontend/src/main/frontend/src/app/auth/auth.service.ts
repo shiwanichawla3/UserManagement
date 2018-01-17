@@ -18,10 +18,12 @@ export class AuthService {
         this.token = currentStudent && currentStudent.token;
     }
     login(email: string, password: string): Observable<boolean> {
-        return this._http.post(this._authenticationURL, JSON.stringify({ email: email, password: password }))
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+
+        return this._http.post(this._authenticationURL, JSON.stringify({ email: email, password: password }), { headers: headers })
             .map((response: Response) => {
                 // login successful if there is a token in response 
-                let token = response.json() && response.json().token;
+                let token = response.text() && response.json();
                 if (token) {
                     // set token property
                     this.token = token;

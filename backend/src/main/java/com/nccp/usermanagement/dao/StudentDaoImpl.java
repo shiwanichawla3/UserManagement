@@ -1,6 +1,7 @@
 package com.nccp.usermanagement.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nccp.usermanagement.entity.Course;
 import com.nccp.usermanagement.entity.Student;
 
 @Transactional
@@ -47,6 +49,12 @@ public class StudentDaoImpl implements StudentDao {
 			student = (Student) result.get(0);
 		}
 		return student;
+	}
+
+	@Override
+	public Set<Course> findCoursesByStudent(String studentId) {
+		Student student = entityManager.find(Student.class, Integer.parseInt(studentId));
+		return student.getCourses();
 	}
 
 }

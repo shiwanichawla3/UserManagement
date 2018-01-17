@@ -2,9 +2,27 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			{{pageTitle}}
+			<span class="pull-right">
+				<a [routerLink]="['/login']" class="logout">Logout</a>
+			</span>
 		</div>
 		<div class="panel-body">
-			hsakjhdkjahdkjha dhioahd oia
+			<div class="table-responsive">
+				<table class="table" *ngIf='courses && courses.length'>
+					<thead>
+						<tr>
+							<th>Course Name</th>
+							<th>Marks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor='let course of courses'>
+							<td>{{ course.subject}}</td>
+							<td>{{ course.marks}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

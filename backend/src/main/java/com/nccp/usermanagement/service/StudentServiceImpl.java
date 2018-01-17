@@ -1,9 +1,12 @@
 package com.nccp.usermanagement.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nccp.usermanagement.dao.StudentDao;
+import com.nccp.usermanagement.entity.Course;
 import com.nccp.usermanagement.entity.Student;
 
 @Service
@@ -29,8 +32,15 @@ public class StudentServiceImpl implements StudentService {
 
 	}
 
-	public Boolean loginStudent(String email, String password) {
-		return studentDao.findStudentByEmailAndPassword(email, password) != null ? true : false;
+	@Override
+	public String loginStudent(String email, String password) {
+		Student student = studentDao.findStudentByEmailAndPassword(email, password);
+		return  student != null ? Integer.toString(student.getStudentId()) : "";
+	}
+
+	@Override
+	public Set<Course> getEnrolledCourses(String studentId) {
+		return studentDao.findCoursesByStudent(studentId);
 	}
 
 }

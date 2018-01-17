@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nccp.usermanagement.annotation.LogExecutionTime;
-import com.nccp.usermanagement.dto.LoginRequestDto;
+import com.nccp.usermanagement.form.LoginForm;
 import com.nccp.usermanagement.service.StudentService;
 
 @RestController
@@ -24,9 +24,9 @@ public class AuthenticationController {
 
 	@LogExecutionTime
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> login(@RequestBody LoginRequestDto authentication) {
+	public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
 		LOG.info("Login request");
-		return new ResponseEntity<Boolean>(
-				studentService.loginStudent(authentication.getEmail(), authentication.getPassword()), HttpStatus.OK);
+		return new ResponseEntity<String>(studentService.loginStudent(loginForm.getEmail(), loginForm.getPassword()),
+				HttpStatus.OK);
 	}
 }

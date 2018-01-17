@@ -1,5 +1,8 @@
 package com.nccp.usermanagement.service;
 
+import java.util.Set;
+
+import com.nccp.usermanagement.entity.Course;
 import com.nccp.usermanagement.entity.Student;
 
 public interface StudentService {
@@ -8,5 +11,7 @@ public interface StudentService {
 
 	boolean saveStudent(Student student);
 
-	Boolean loginStudent(String email, String password);
+	String loginStudent(String email, String password);
+
+	Set<Course> getEnrolledCourses(String studentId);
 }
