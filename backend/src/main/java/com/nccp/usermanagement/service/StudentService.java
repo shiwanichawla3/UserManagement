@@ -14,4 +14,7 @@ public interface StudentService {
 	String loginStudent(String email, String password);
 
 	Set<Course> getEnrolledCourses(String studentId);
+	
+	String registerStudent(String email,String name, String password);
+
 }

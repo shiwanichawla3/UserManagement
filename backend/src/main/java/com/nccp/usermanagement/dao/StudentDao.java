@@ -8,9 +8,9 @@ import com.nccp.usermanagement.entity.Student;
 public interface StudentDao {
 	Student findByEmail(String email);
 
-	boolean saveStudent(Student student);
+	String saveStudent(Student student);
 
-	Student findStudentByEmailAndPassword(String string, String string2);
+	Student findStudentByEmail(String email);
 
 	Set<Course> findCoursesByStudent(String studentId);
 }

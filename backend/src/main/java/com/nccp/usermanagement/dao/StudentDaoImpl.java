@@ -27,22 +27,28 @@ public class StudentDaoImpl implements StudentDao {
 		return (Student) entityManager.createQuery(FIND_STUDENT_BY_EMAIL).setParameter(1, email).getResultList().get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public boolean saveStudent(Student student) {
-		Student existingUser = findByEmail(student.getEmail());
-		if (existingUser != null) {
-			return false;
+	public String saveStudent(Student student) {
+		List<Student> existingStudent = entityManager.createQuery(FIND_STUDENT_BY_EMAIL).setParameter(1, student.getEmail()).getResultList();
+		if (!existingStudent.isEmpty() && existingStudent.get(0)!=null) {
+			return "";
+		} else {
+			try {
+				entityManager.persist(student);
+			} catch (Exception ex) {
+				return "";
+			}
 		}
-		entityManager.persist(student);
-		return true;
+		entityManager.flush();
+		return Integer.toString(student.getStudentId());
 	}
 
 	@Override
-	public Student findStudentByEmailAndPassword(String username, String password) {
+	public Student findStudentByEmail(String email) {
 
-		TypedQuery<Student> query = entityManager.createNamedQuery("getUserByEmailPwd", Student.class);
-		query.setParameter("email", username);
-		query.setParameter("password", password);
+		TypedQuery<Student> query = entityManager.createNamedQuery("getStudentByEmail", Student.class);
+		query.setParameter("email", email);
 		Student student = null;
 		List<Student> result = query.getResultList();
 		if (result != null && !result.isEmpty()) {

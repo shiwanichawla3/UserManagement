@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nccp.usermanagement.annotation.LogExecutionTime;
 import com.nccp.usermanagement.form.LoginForm;
+import com.nccp.usermanagement.form.RegisterForm;
 import com.nccp.usermanagement.service.StudentService;
 
 @RestController
@@ -28,5 +29,12 @@ public class AuthenticationController {
 		LOG.info("Login request");
 		return new ResponseEntity<String>(studentService.loginStudent(loginForm.getEmail(), loginForm.getPassword()),
 				HttpStatus.OK);
+	}
+	@LogExecutionTime
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<String> register(@RequestBody RegisterForm registerForm) {
+		LOG.info("Registration request");
+		return new ResponseEntity<String>(studentService.registerStudent(registerForm.getEmail(), registerForm.getName(), registerForm.getPassword()),
+				HttpStatus.CREATED);
 	}
 }

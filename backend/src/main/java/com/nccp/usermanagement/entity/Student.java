@@ -23,7 +23,7 @@ import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "students")
-@NamedQueries({ @NamedQuery(name = "getUserByEmailPwd", query = "FROM Student as st WHERE st.email = :email and st.password = :password") })
+@NamedQueries({ @NamedQuery(name = "getStudentByEmail", query = "FROM Student as st WHERE st.email = :email") })
 public class Student {
 
 	@SuppressWarnings("unused")

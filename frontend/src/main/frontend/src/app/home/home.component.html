@@ -22,6 +22,9 @@
 						</tr>
 					</tbody>
 				</table>
+				<div *ngIf='courses && !courses.length'>
+					OOPS !! No courses enrolled.
+				</div>
 			</div>
 		</div>
 	</div>

@@ -3,6 +3,7 @@ package com.nccp.usermanagement.service;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nccp.usermanagement.dao.StudentDao;
@@ -14,6 +15,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentDao studentDao;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/*
 	 * @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -28,19 +32,32 @@ public class StudentServiceImpl implements StudentService {
 		// student.setPassword(bCryptPasswordEncoder.encode(student.getPassword()));
 		student.setPassword(student.getPassword());
 
-		return studentDao.saveStudent(student);
+		return true/* studentDao.saveStudent(student) */;
 
 	}
 
 	@Override
 	public String loginStudent(String email, String password) {
-		Student student = studentDao.findStudentByEmailAndPassword(email, password);
-		return  student != null ? Integer.toString(student.getStudentId()) : "";
+		Student student = studentDao.findStudentByEmail(email);
+		if (student != null && passwordEncoder.matches(password, student.getPassword())) {
+			return Integer.toString(student.getStudentId());
+		} else {
+			return "";
+		}
 	}
 
 	@Override
 	public Set<Course> getEnrolledCourses(String studentId) {
 		return studentDao.findCoursesByStudent(studentId);
+	}
+
+	@Override
+	public String registerStudent(String email, String name, String password) {
+		Student student = new Student();
+		student.setEmail(email);
+		student.setName(name);
+		student.setPassword(passwordEncoder.encode(password));
+		return studentDao.saveStudent(student);
 	}
 
 }
